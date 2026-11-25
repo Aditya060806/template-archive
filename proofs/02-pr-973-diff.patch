@@ -1,0 +1,44 @@
+﻿diff --git a/packages/cicero-core/src/clause.ts b/packages/cicero-core/src/clause.ts
+index 12903e5e..28e13621 100644
+--- a/packages/cicero-core/src/clause.ts
++++ b/packages/cicero-core/src/clause.ts
+@@ -17,8 +17,7 @@ import TemplateInstance from './templateinstance';
+ /**
+  * A Clause is executable business logic, linked to a natural language (legally enforceable) template.
+  * A Clause must be constructed with a template and then prior to execution the data for the clause must be set.
+- * Set the data for the clause (an instance of the template model) by either calling the setData method or by
+- * calling the parse method and passing in natural language text that conforms to the template grammar.
++ * Set the data for the clause (an instance of the template model) by calling the setData method.
+  * @public
+  * @class
+  */
+diff --git a/packages/cicero-core/src/contract.ts b/packages/cicero-core/src/contract.ts
+index d4918173..8c451a66 100644
+--- a/packages/cicero-core/src/contract.ts
++++ b/packages/cicero-core/src/contract.ts
+@@ -16,9 +16,8 @@ import TemplateInstance from './templateinstance';
+ 
+ /**
+  * A Contract is executable business logic, linked to a natural language (legally enforceable) template.
+- * A Clause must be constructed with a template and then prior to execution the data for the clause must be set.
+- * Set the data for the clause (an instance of the template model) by either calling the setData method or by
+- * calling the parse method and passing in natural language text that conforms to the template grammar.
++ * A Contract must be constructed with a template and then prior to execution the data for the clause must be set.
++ * Set the data for the clause (an instance of the template model) by calling the setData method.
+  * @public
+  * @class
+  */
+diff --git a/packages/cicero-core/src/templateinstance.ts b/packages/cicero-core/src/templateinstance.ts
+index f037735c..7f73432e 100644
+--- a/packages/cicero-core/src/templateinstance.ts
++++ b/packages/cicero-core/src/templateinstance.ts
+@@ -23,8 +23,7 @@ import { TemplateMarkTransformer } from '@accordproject/markdown-template';
+  * A TemplateInstance is an instance of a Clause or Contract template. It is executable business logic, linked to
+  * a natural language (legally enforceable) template.
+  * A TemplateInstance must be constructed with a template and then prior to execution the data for the clause must be set.
+- * Set the data for the TemplateInstance by either calling the setData method or by
+- * calling the parse method and passing in natural language text that conforms to the template grammar.
++ * Set the data for the TemplateInstance by calling the setData method.
+  * @public
+  * @abstract
+  * @class

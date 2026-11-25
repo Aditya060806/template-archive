@@ -1,0 +1,65 @@
+﻿title:	docs(cicero-core): remove nonexistent parse() reference from class JSDoc (#881)
+state:	DRAFT
+author:	Aditya060806
+labels:	
+assignees:	
+reviewers:	
+projects:	
+milestone:	
+number:	973
+url:	https://github.com/accordproject/template-archive/pull/973
+additions:	4
+deletions:	7
+auto-merge:	disabled
+--
+# Closes #881
+
+The class JSDoc on `Clause`, `Contract`, and `TemplateInstance` tells readers to set template data by either calling `setData` or by calling a `parse` method that accepts natural language text. `TemplateInstance` exposes no such `parse` method, and neither does `Clause` or `Contract`. The sentence is a copy-paste of pre-TypeScript Cicero docs that was never cleaned up after the legacy parser was dropped, so anyone following the JSDoc hits a `TypeError`. The issue proposes two routes; this PR takes Option 2 (the documentation fix), which is the smallest change that stops the JSDoc from lying and leaves the parse/writing surface for a future, deliberate feature decision.
+
+While I was in `contract.ts`, the class description also opens with "A Clause must be constructed..." for a `Contract` class ΓÇö a second cut-and-paste slip in the same block. I corrected the subject so the sentence reads "A Contract must be constructed..." That is still inside the scope of Option 2 and does not change any runtime behaviour.
+
+### Changes
+
+- `packages/cicero-core/src/clause.ts` ΓÇö drop the "or by calling the parse method and passing in natural language text that conforms to the template grammar" clause; keep the `setData` sentence.
+- `packages/cicero-core/src/contract.ts` ΓÇö same clause removed, plus the `A Clause must be constructed` ΓåÆ `A Contract must be constructed` fix for the class's own subject.
+- `packages/cicero-core/src/templateinstance.ts` ΓÇö same clause removed on the shared base class.
+
+Three files, documentation-only, no runtime behaviour touched.
+
+### Flags
+
+- Documentation-only; no code paths change, no public API surface moves.
+- The issue laid out two options. Option 1 (re-implement `parse()` / `generateText()`) is a product decision for the maintainers and the roadmap, not something to fold into a drive-by fix. This PR is strictly Option 2 and leaves that door open ΓÇö if you'd rather close #881 as "won't fix the docs until the feature is back," I'm happy to retarget or close this PR.
+
+### Verification
+
+Ran locally on Windows 11, Node v24.16.0, npm 11.13.0, from `packages/cicero-core`:
+
+- `npm test` ΓåÆ PASS. The `pretest` chain (`lint` ΓåÆ `licchk` ΓåÆ `build`) is clean, and `jest --silent` reports **17 suites, 205 passed, 3 skipped, 0 failed**.
+  - `eslint . --ext .ts` ΓÇö clean on the three touched files.
+  - `license-check-and-add` ΓÇö "All files have licenses."
+  - `tsc -p tsconfig.json && node scripts/build-esm.js` ΓÇö type-check and ESM build both succeed. (JSDoc parses the same with the shortened sentences, so the generated `.d.ts` types are unchanged.)
+
+No new tests added, consistent with a documentation-only fix on JSDoc comments.
+
+### Screenshots or Video
+
+Not applicable ΓÇö this is a JSDoc edit; the only visible surface is the generated docs pages and IDE hover tooltips, which will now stop pointing at a method that does not exist.
+
+### Related Issues
+
+- Issue #881 ΓÇö "bug: Documentation mismatch for parse() method in Clause and Contract classes"
+
+### Credit
+
+Thanks to @Divyansh2992 for reporting #881 and laying out both resolution options clearly. They also soft-claimed the work on the day the issue was opened (`I'd like to work on it`), and the issue has sat idle since and carries the `Stale` label. Per the usual Accord contribution flow I went ahead and picked it up; if they'd prefer to ship Option 2 themselves I'm glad to close this PR, and I'd also be happy to help scope Option 1 as a follow-up if the maintainers want to revisit the `parse()` surface properly.
+
+### Author Checklist
+- [x] DCO sign-off provided on the commit (`--signoff`).
+- [x] Documentation-only change; no unit/integration tests required (lint, build, and the existing Jest suite all pass in `packages/cicero-core`).
+- [x] Commit message follows the AP conventional-commit format (`docs(cicero-core): ...`).
+- [x] Documentation updated ΓÇö the change *is* the documentation update.
+- [x] Merging to `main` from `Aditya060806:docs/issue-881-remove-nonexistent-parse-jsdoc`.
+
+Opening as **draft** while CI runs and EasyCLA settles.
+

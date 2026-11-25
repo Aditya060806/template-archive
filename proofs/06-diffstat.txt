@@ -1,0 +1,4 @@
+﻿ packages/cicero-core/src/clause.ts           | 3 +--
+ packages/cicero-core/src/contract.ts         | 5 ++---
+ packages/cicero-core/src/templateinstance.ts | 3 +--
+ 3 files changed, 4 insertions(+), 7 deletions(-)
